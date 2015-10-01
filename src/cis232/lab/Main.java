@@ -76,24 +76,43 @@ public class Main {
 
 	private void loadStudentsFromFile() throws FileNotFoundException {
 		File originalFile = new File(STUDENTS_FILE);
-		Scanner input = new Scanner(originalFile);
-		unpickedStudents = new ArrayList<>();
-		allStudents = new ArrayList<>();
-		
-		while(input.hasNextLine()){
-			StringTokenizer tokens = new StringTokenizer(input.nextLine(), ",");
-			Student student = new Student(tokens.nextToken(), Integer.parseInt(tokens.nextToken()));
-			if(tokens.hasMoreTokens()){
-				student.setPresent(tokens.nextToken());
+			try{
+				Scanner input = new Scanner(originalFile);
+				unpickedStudents = new ArrayList<>();
+				allStudents = new ArrayList<>();
+				int index = 1;
+				
+				while(input.hasNextLine()){
+					String data = input.nextLine();
+					StringTokenizer tokens = new StringTokenizer(data, ",");
+					Student student = new Student("", 0);
+					
+					try{
+						student = new Student(tokens.nextToken(), Integer.parseInt(tokens.nextToken()));
+					}catch(NumberFormatException exc){
+					
+						System.out.printf("Row %d is not valid. Contents: %s.\nStudent"
+								+ " has a point value that is not an integer.", index, data);
+						System.exit(0);
+					}
+					
+					if(tokens.hasMoreTokens()){
+						student.setPresent(tokens.nextToken());
+					}
+					if(student.isPresent()){
+						unpickedStudents.add(student);
+					}
+					allStudents.add(student);
+					index++;
+				}
+				input.close();
+			}catch(FileNotFoundException x){
+				System.out.printf("%s not found. Exiting Program", originalFile.getPath());
+				System.exit(0);
 			}
-			if(student.isPresent()){
-				unpickedStudents.add(student);
-			}
-			allStudents.add(student);
 		}
-		
-		input.close();
-	}
+
+	
 		
 	private void saveStudentsToFile() throws IOException{
 		PrintWriter output = new PrintWriter(STUDENTS_FILE);
