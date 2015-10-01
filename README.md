@@ -1,11 +1,8 @@
 # RandomStudentPicker
 
 
-# Class 7 Lab
-Modify this program in the following way:
+# Class 10 Lab
+Modify this program in the following way using exception handling:
 
-1. Implement Comparable interface on Student
-2. Create printLeaderboard method in Main class
-	a. Call Collections.sort and pass it the allStudents ArrayList
-	b. print the result to console in order with the student's "rank" and score on each line
-3. Call printLeaderboard when the program exits
+1. If the students file is not found, print a message with the path the student file is expected to be and exit the program.
+2. If the students points are not an integer while loading the file, print a message with the row # and exact contents of the row, and a description on how to fix it.
